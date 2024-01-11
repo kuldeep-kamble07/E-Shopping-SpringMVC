@@ -27,7 +27,12 @@
 //         }
 //     });
 // }
-
+$(document).ready(function (){
+    var userId= sessionStorage.getItem('userId');
+    if(userId) {
+        addproduct(userId);
+    }
+})
 
 function fetchProductsByCategory(category) {
     $.ajax({
@@ -56,7 +61,8 @@ function displayProducts(products) {
             "<td>" + product.price + "</td>" +
             "<td>" + product.quantity + "</td>" +
             "<td>" + product.expiryDate + "</td>" +
-            "<td><button onclick='removeproduct(\"" + product.name + "\")'>remove product</button></td>" +
+          //  "<td><button onclick='removeproduct(\"" + product.name + "\")'>remove product</button></td>" +
+            "<td><button onclick='addproduct(\"" + product.id + "\")'>Add To cart</button></td>" +
             "</tr>";
             "</tr>";
         $("#product").append(row);
@@ -65,44 +71,90 @@ function displayProducts(products) {
 
 
 
-function removeproduct(name) {
-    var confirmation = confirm("Are you sure you want to remove the product?");
-
-    if (confirmation) {
-        $.ajax({
-            type: "GET",
-            url: "/shoppingcartmvcapplication/removeproduct/" + name,
-            success: function (response) {
-                alert("Product removed successfully!");
-            },
-            error: function () {
-                alert("Error removing product");
-            }
-        });
-    }
-}
-
-
-// function removeproduct(productId) {
-//     var quantity = prompt("Enter quantity for the product:", "1");
+// function removeproduct(name) {
+//     var confirmation = confirm("Are you sure you want to remove the product?");
 //
-//     if (quantity != null) {
-//         var productData = {
-//             id: productId,
-//             quantity: quantity
-//         };
-//
+//     if (confirmation) {
 //         $.ajax({
-//             type: "POST",
-//             url: "/shoppingcartmvcapplication/add",
-//             contentType: "application/json",
-//             data: JSON.stringify(productData),
+//             type: "GET",
+//             url: "/shoppingcartmvcapplication/removeproduct/" + name,
 //             success: function (response) {
-//                 alert("Product added to cart successfully!");
+//                 alert("Product removed successfully!");
 //             },
 //             error: function () {
-//                 alert("Error adding product to cart");
+//                 alert("Error removing product");
 //             }
 //         });
 //     }
 // }
+
+
+function addproduct(productId) {
+    var quantity = prompt("Enter quantity for the product:", "1");
+    var userId = sessionStorage.getItem("userId");
+    if (quantity != null) {
+        var productData = {
+             userId:userId,
+            productId: productId,
+            quantity: quantity
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/shoppingcartmvcapplication/addtocart",
+            contentType: "application/json",
+            data: JSON.stringify(productData),
+            headers: {
+                "userId": userId,
+                "productId":productId,
+                "quantity":quantity
+            },
+            success: function (response) {
+                alert("Product added to cart successfully!");
+            },
+            error: function (error) {
+                console.error("Error adding product to cart:", error);
+                alert("Error adding product to cart");
+            }
+        });
+    }
+}
+function displayUserDteail() {
+    var email = sessionStorage.getItem("email");
+    var password = sessionStorage.getItem("password");
+
+    if (email !== null && password !== null) {
+        var credentialData = {
+            email: email,
+            password: password
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/shoppingcartmvcapplication/displayUserDteail",
+            contentType: "application/json",
+            data: JSON.stringify(credentialData),
+            dataType: "json",
+            success: function (response) {
+                //alert("Fetching data successfully");
+                sessionStorage.setItem("userId", response.userId);
+                sessionStorage.getItem("userId");
+                showUserDetails(response);
+            },
+            error: function (error) {
+                alert("Error fetching data" + error);
+            }
+        });
+    } else {
+        alert("Username or password is null.");
+    }
+}
+function showUserDetails(userData) {
+    var userDetails = `
+        First Name: ${userData.firstname}
+        Last Name: ${userData.lastname}
+        Email: ${userData.email}
+        Mobile Number: ${userData.mobileNo}
+    `;
+    alert(userDetails);
+}

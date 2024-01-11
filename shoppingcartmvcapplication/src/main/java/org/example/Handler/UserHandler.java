@@ -1,5 +1,7 @@
 package org.example.Handler;
 
+import org.example.DTO.LoginDTO;
+import org.example.DTO.UserDto;
 import org.example.Dao.UserDao;
 import org.example.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,4 +17,5 @@ public class UserHandler {
         userDao.addUser(user);
         return "User Register Successfully !";
     }
+
 }

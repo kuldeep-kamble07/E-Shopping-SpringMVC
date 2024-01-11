@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.DTO.LoginDTO;
+import org.example.DTO.UserDto;
 import org.example.Handler.LoginHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -23,7 +24,15 @@ public class LoginController {
 
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> login(@RequestBody LoginDTO loginDto) {
+        String email=loginDto.getEmail();
+        String password=loginDto.getPassword();
 
       return ResponseEntity.ok(loginHandler.login(loginDto));
+    }
+
+
+    @PostMapping(value = "/displayUserDteail", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDto> displayUserDteail(@RequestBody LoginDTO loginDTO) {
+        return ResponseEntity.ok(loginHandler.displayUser(loginDTO));
     }
 }

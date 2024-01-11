@@ -71,11 +71,6 @@ public class ShoppingcartController {
         return "removeproduct";
     }
 
-//    @DeleteMapping("/removeproduct/{productId}")
-//    public ResponseEntity<String> removeProduct(@PathVariable int productId) {
-//        productHandler.removeProduct(productId);
-//        return ResponseEntity.ok("Product removed successfully");
-//    }
 
     @GetMapping("/removeproduct/{productName}")
     public ResponseEntity<String> removeProductByName(@PathVariable String productName) {

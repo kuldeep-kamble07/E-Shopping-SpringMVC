@@ -35,6 +35,7 @@
                 <value>org.example.model.Product</value>
                 <value>org.example.model.User</value>
                 <value>org.example.model.Cart</value>
+                <value>org.example.model.UserCartMapping</value>
             </list>
         </property>
     </bean>

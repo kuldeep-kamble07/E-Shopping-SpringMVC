@@ -14,6 +14,10 @@
             return false;
         }
 
+        if (!validateMobile(mobileNo)) {
+            return false;
+        }
+
         if (!validatePassword(password)) {
             return false;
         }
@@ -51,7 +55,17 @@
         return true;
     }
 
-    // Function to validate password complexity
+    // Function to validate mobile no
+    function validateMobile(mobile) {
+        var mobileRegex = /^[0-9]{10}$/;
+        if (!mobile.match(mobileRegex)) {
+            alert("Please enter a valid 10-digit mobile number.");
+            return false;
+        }
+        return true;
+    }
+
+    // Function to validate password
     function validatePassword(password) {
         var passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
         if (!password.match(passwordRegex)) {

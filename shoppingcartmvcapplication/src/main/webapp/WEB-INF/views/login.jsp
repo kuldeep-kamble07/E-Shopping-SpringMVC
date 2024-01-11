@@ -1,12 +1,12 @@
 <%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>Login Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-    <style>
+<style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -56,18 +56,19 @@
 <body>
 <div class="container">
     <h2>Login</h2>
-    <form id="loginForm" method="post">
+    <form action="login" id="loginForm" method="post">
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required autocomplete="email">
-        </div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required autocomplete="current-password">
+            <input type="email" id="email" name="email" placeholder="Your email address" required>
 
         </div>
         <div class="form-group">
-            <button type="submit" onclick="loginUser()">Login</button>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Your password" required>
+
+        </div>
+        <div class="form-group">
+            <button type="button" onclick="loginUser()">Submit</button>
         </div>
     </form>
 </div>

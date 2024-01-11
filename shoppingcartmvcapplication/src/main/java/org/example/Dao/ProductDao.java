@@ -3,6 +3,8 @@ package org.example.Dao;
 import org.example.db.DbQueries;
 import org.example.model.Cart;
 import org.example.model.Product;
+import org.example.model.User;
+import org.example.model.UserCartMapping;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -52,6 +54,14 @@ public class ProductDao {
         }
     }
 
+    public void updateProduct(Product product) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.update(product);
+            session.getTransaction().commit();
+        }
+    }
+
     public void removeProduct(Product product) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
@@ -63,11 +73,24 @@ public class ProductDao {
 
     public Product findById(int id) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Cart> query = session.createQuery("from Cart where Product.id=:id", Cart.class);
-            query.setParameter("id", id);
-            Cart cart = query.uniqueResult();
-
             return session.get(Product.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Error fetching user by ID", e);
+        }
+    }
+    public void decreaseProductQuantityInShop(int productId, int quentity) {
+        try (Session session = sessionFactory.openSession()) {
+            Product product = session.get(Product.class, productId);
+            if (product != null && product.getQuantity() > 0) {
+                product.setQuantity(product.getQuantity() - quentity);
+                session.beginTransaction();
+                session.update(product);
+                session.getTransaction().commit();
+            } else {
+                throw new RuntimeException("Product not found in the shop or quantity is zero");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error decreasing product quantity in shop", e);
         }
     }
 

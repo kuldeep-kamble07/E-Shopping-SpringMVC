@@ -42,7 +42,7 @@
     </style>
 </head>
 <body>
-<h1>Product Available under cart</h1>
+<h1>Product Available Under Shop</h1>
 
 <div class="buttons-container">
     <button id="btnStationary" data-category="STATIONARY" onclick="fetchProductsByCategory('STATIONARY')">Stationary</button><%--    <button id="btnCosmetic" data-category="COSMATIC" onclick="selectCategory(this)">Cosmetic</button>--%>
@@ -50,6 +50,7 @@
     <button id="btnElectronic" data-category="ELECTRONICS" onclick="fetchProductsByCategory('ELECTRONICS')">Electronic</button>
     <button id="btnClothing" data-category="CLOTHING" onclick="fetchProductsByCategory('CLOTHING')">Clothing</button>
     <button id="btnSports" data-category="SPORTS" onclick="fetchProductsByCategory('SPORTS')">Sports</button>
+    <button id="btnProfile" type="button" onclick="displayUserDteail()">Profile</button>
 </div>
 <table>
     <thead id="a1">

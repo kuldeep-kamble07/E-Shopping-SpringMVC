@@ -18,11 +18,11 @@ public class DbQueries {
 
    // public static final String GET_PRODUCT_BY_ID = "form Cart where product.id =:id";
 
-
-//    public Product findProductByName(Session session, String name) {
-//        Query<Product> query = session.createQuery("FROM Product WHERE name = :name", Product.class);
-//        query.setParameter("name", name);
-//        return query.uniqueResult();
-//    }
     public static final  String FIND_PRODUCT_BY_NAME = "FROM Product WHERE name = :name";
+
+    public static final String FIND_BY_ID ="from Cart where Product.id=:id";
+
+    public static final String GET_BY_MAIL = "FROM User WHERE email = :email";
+
+    public static final String GET_PRODUCTS_BY_USER_ID = "SELECT p FROM Product p JOIN p.Cart.UserCartMappings ucm WHERE ucm.Cart.User.userId = :userId";
 }

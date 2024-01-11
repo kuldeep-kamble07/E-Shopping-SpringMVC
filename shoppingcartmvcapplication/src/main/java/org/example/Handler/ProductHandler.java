@@ -21,14 +21,6 @@ public class ProductHandler {
         return productDao.getAllProducts();
     }
 
-//    public String addProduct(Product product) {
-//        Product existingProduct = productDao.findProductByName(product.getName());
-//        if (existingProduct != null) {
-//        existingProduct.setQuantity(existingProduct.getQuantity() + product.getQuantity());
-//    }
-//        return "Product added scuuessfully !";
-//    }
-
     public void addOrUpdateProduct(Product product) {
         Product existingProduct = productDao.findProductByName(product.getName());
         if (existingProduct != null) {

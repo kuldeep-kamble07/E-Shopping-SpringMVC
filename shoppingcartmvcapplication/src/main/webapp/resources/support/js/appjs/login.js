@@ -16,13 +16,16 @@ function loginUser() {
         contentType: "application/json",
         data: JSON.stringify(userData),
         success: function (response) {
-            if (response === "Login Successfully !") {
-                alert("Login successfully!");
-            } else {
+             if (response === "Login Successfully !") {
+            alert("Login successfully!");
+             window.location.href="/shoppingcartmvcapplication/dashboard";
+            }
+        else
+            {
                 alert("User not exist!");
             }
         },
-        error: function (error) {
+        error: function () {
             alert("Login failed. Please check your username and password.");
         }
     });
