@@ -14,17 +14,19 @@ public class LoginHandler implements UserHandlerI {
     @Autowired
     private UserDao userDao;
 
-    @Override
-    public String login(LoginDTO loginDTO) {
+    public UserDto login(LoginDTO loginDto) {
         try {
-            User user = userDao.getByEmail(loginDTO.getEmail());
-            if (user != null && user.getPassword().equals(loginDTO.getPassword())) {
-                return "Login Successfully !";
+            User user = userDao.getByEmail(loginDto.getEmail());
+            if (user != null && user.getPassword().equals(loginDto.getPassword())) {
+                UserDto userDto = new UserDto();
+                BeanUtils.copyProperties(user,userDto);
+                return userDto;
+            }else {
+                throw new RuntimeException("Invalid user");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error during login.", e);
         }
-        return "Invalid Username / Password";
     }
 
     @Override
@@ -43,7 +45,7 @@ public class LoginHandler implements UserHandlerI {
     }
     }
 
-
+//
 //public UserDto login(LoginDTO loginDTO) {
 //    UserDto userDto = null;
 //    try {

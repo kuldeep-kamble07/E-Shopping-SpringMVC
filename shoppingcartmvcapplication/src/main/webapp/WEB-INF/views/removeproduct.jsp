@@ -50,7 +50,7 @@
     <td th:text="${cartItem.product.id}"></td>
     <td th:text="${cartItem.quantity}"></td>
     <td>
-      <a th:href="@{/cart/remove/{cartId}(cartId=${cartItem.id})}">Remove</a>
+      <a th:href="@{/userCartMapping/remove/{cartId}(cartId=${cartItem.id})}">Remove</a>
     </td>
   </tr>
   </tbody>

@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.example.Enum.Category;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -27,4 +29,6 @@ private int quantity;
 private Category category;
 
 private String  expiryDate;
+
+
 }

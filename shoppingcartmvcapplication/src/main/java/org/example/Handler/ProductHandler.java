@@ -1,5 +1,7 @@
 package org.example.Handler;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.example.Dao.ProductDao;
 import org.example.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,34 +13,69 @@ import java.util.List;
 
 @Component
 public class ProductHandler {
-
+    private static final Logger LOGGER = LogManager.getLogger(ProductHandler.class);
 
     @Autowired
-
     private ProductDao productDao;
 
     public List<Product> getAllProducts() {
-        return productDao.getAllProducts();
+        try {
+            LOGGER.info("start::ProductHandler::getAllProducts::");
+
+            LOGGER.info("Fetching all products");
+            return productDao.getAllProducts();
+        } catch (Exception e) {
+            LOGGER.error("Error fetching all products", e);
+            throw new RuntimeException("Error fetching all products", e);
+        }
     }
 
     public void addOrUpdateProduct(Product product) {
-        Product existingProduct = productDao.findProductByName(product.getName());
-        if (existingProduct != null) {
-            existingProduct.setQuantity(existingProduct.getQuantity() + product.getQuantity());
-            productDao.updateProductByName(existingProduct);
-        } else {
-            productDao.saveProduct(product);
+        try {
+            LOGGER.info("start::ProductHandler::addOrUpdateProduct::");
+
+            Product existingProduct = productDao.findProductByName(product.getName());
+            if (existingProduct != null) {
+                existingProduct.setQuantity(existingProduct.getQuantity() + product.getQuantity());
+                productDao.updateProductByName(existingProduct);
+            } else {
+                productDao.saveProduct(product);
+            }
+
+            LOGGER.info("Product added or updated successfully!");
+        } catch (Exception e) {
+            LOGGER.error("Error adding or updating product", e);
+            throw new RuntimeException("Error adding or updating product", e);
         }
     }
+
     public void removeProduct(String productName) {
-        Product product = productDao.findProductByName(productName);
-        if (product != null) {
-            productDao.removeProduct(product);
-        } else {
-            throw new RuntimeException("Product not found with name: " + productName);
+        try {
+            LOGGER.info("start::ProductHandler::removeProduct::");
+
+            Product product = productDao.findProductByName(productName);
+            if (product != null) {
+                productDao.removeProduct(product);
+            } else {
+                throw new RuntimeException("Product not found with name: " + productName);
+            }
+
+            LOGGER.info("Product removed successfully!");
+        } catch (Exception e) {
+            LOGGER.error("Error removing product", e);
+            throw new RuntimeException("Error removing product", e);
         }
     }
+
     public Product getProductById(int id) {
-        return productDao.findById(id);
+        try {
+            LOGGER.info("start::ProductHandler::getProductById::");
+
+            LOGGER.info("Fetching product by ID");
+            return productDao.findById(id);
+        } catch (Exception e) {
+            LOGGER.error("Error fetching product by ID", e);
+            throw new RuntimeException("Error fetching product by ID", e);
+        }
     }
 }

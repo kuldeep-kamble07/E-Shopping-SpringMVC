@@ -2,9 +2,6 @@ function loginUser() {
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
 
-    sessionStorage.setItem("email", email);
-    sessionStorage.setItem("password", password);
-
     var userData = {
         "email": email,
         "password": password
@@ -15,18 +12,19 @@ function loginUser() {
         url: "/shoppingcartmvcapplication/login",
         contentType: "application/json",
         data: JSON.stringify(userData),
-        success: function (response) {
-             if (response === "Login Successfully !") {
-            alert("Login successfully!");
-             window.location.href="/shoppingcartmvcapplication/dashboard";
-            }
-        else
-            {
+        success: function (userDto) {
+            if (userDto && userDto.userId) {
+                // Store user details in session storage
+                sessionStorage.setItem("userId", userDto.userId);
+                alert("Login successfully!");
+                window.location.href = "/shoppingcartmvcapplication/buyproduct";
+            } else {
                 alert("User not exist!");
             }
         },
-        error: function () {
+        error: function (error) {
             alert("Login failed. Please check your username and password.");
         }
     });
 }
+

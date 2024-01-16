@@ -1,13 +1,9 @@
 package org.example.Dao;
 
 import org.example.db.DbQueries;
-import org.example.model.Cart;
 import org.example.model.Product;
-import org.example.model.User;
-import org.example.model.UserCartMapping;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

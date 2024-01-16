@@ -1,12 +1,13 @@
 package org.example.Handler;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.example.Dao.CartDao;
 import org.example.Dao.ProductDao;
 import org.example.Dao.UserDao;
-import org.example.model.Cart;
+import org.example.model.UserCartMapping;
 import org.example.model.Product;
 import org.example.model.User;
-import org.example.model.UserCartMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Service
 public class CartHandler {
+    private static final Logger LOGGER = LogManager.getLogger(CartHandler.class);
 
     @Autowired
     private CartDao cartDao;
@@ -24,102 +26,80 @@ public class CartHandler {
     @Autowired
     private ProductDao productDao;
 
-//    public void addProductToUserCart(Cart cart) {
-//        User user = userDao.findByName(cart.getUser().getName());
-//        Product product = productDao.findByName(cart.getProduct().getName());
-//
-//        if (user == null || product == null) {
-//            throw new RuntimeException("User or Product not found.");
-//        }
-//
-//        cart.setUser(user);
-//        cart.setProduct(product);
-//        cartDao.addProductToCart(cart);
-//    }
-//
     public String addCartToUser(int id) {
         try {
+            LOGGER.info("start::CartHandler::addCartToUser::");
+
             User user = userDao.findById(id);
             if (user == null) {
                 throw new IllegalArgumentException("User not found with ID: " + id);
             }
 
-            Cart cart = new Cart();
-            cart.setUser(user);
-
-            user.setCart(cart);
+            UserCartMapping userCartMapping = new UserCartMapping();
+            userCartMapping.setUser(user);
 
             userDao.updateUser(user);
 
+            LOGGER.info("Cart added successfully!");
             return "Cart added successfully!";
         } catch (Exception e) {
+            LOGGER.error("Error adding cart to user", e);
             throw new RuntimeException("Error adding cart to user", e);
         }
     }
-//    public Cart getCartForUser(int id){
-//        User user = userDao.findById(id);
-//        Cart cart = user.getCart();
-//        return cart;
-//    }
-
-//    public List<Product> addProductToUserCart(int id, Product product) {
-//        Cart cart = getCartForUser(id);
-//
-//
-//        product.setCart(cart);
-//
-//        List<Product> products = cart.getProducts();
-//        boolean productExists = false;
-//
-//        for (Product existingProduct : products) {
-//            if (existingProduct.getId() == product.getId()) {
-//                existingProduct.setQuantity(existingProduct.getQuantity() + product.getQuantity());
-//                cart.setQuantity(cart.getQuantity() + product.getQuantity());
-//                productExists = true;
-//                break;
-//            }
-//        }
-//
-//        if (!productExists) {
-//            products.add(product);
-//           cart.setQuantity(cart.getQuantity() + product.getQuantity());
-//        }
-//
-//        cart.setProducts(products);
-//        cartDao.updateCart(cart);
-//        productDao.decreaseProductQuantityInShop(product.getId(), product.getQuantity());
-//
-//        return products;
-//    }
 
     public String addProductToCart(int userId, int productId, int quantity) {
-        User user = userDao.findById(userId);
-        Product product = productDao.findById(productId);
+        try {
+            LOGGER.info("start::CartHandler::addProductToCart::");
 
-        if (user == null || product == null) {
-            return "User or Product not found.";
+            User user = userDao.findById(userId);
+            Product product = productDao.findById(productId);
+
+            if (user == null || product == null) {
+                LOGGER.error("User or Product not found.");
+                return "User or Product not found.";
+            }
+
+            List<UserCartMapping> cartMappings = user.getCartMappings();
+
+            UserCartMapping existingMapping = null;
+            for (UserCartMapping mapping : cartMappings) {
+                if (mapping.getProduct().getId() == productId) {
+                    existingMapping = mapping;
+                    break;
+                }
+            }
+
+            if (existingMapping != null) {
+                existingMapping.setQuantity(existingMapping.getQuantity() + quantity);
+            } else {
+                UserCartMapping cartItem = new UserCartMapping();
+                cartItem.setUser(user);
+                cartItem.setProduct(product);
+                cartItem.setQuantity(quantity);
+                cartMappings.add(cartItem);
+            }
+
+            userDao.updateUser(user);
+
+            LOGGER.info("Product added to cart successfully!");
+            return "Product added to cart successfully!";
+        } catch (Exception e) {
+            LOGGER.error("Error adding product to cart", e);
+            throw new RuntimeException("Error adding product to cart", e);
         }
-
-        Cart cart = user.getCart();
-        if (cart == null) {
-            cart = new Cart();
-            cart.setUser(user);
-            user.setCart(cart);
-        }
-
-        UserCartMapping cartItem = new UserCartMapping();
-        cartItem.setCart(cart);
-        cartItem.setProduct(product);
-        cartItem.setQuantity(quantity);
-
-        cart.getCartItems().add(cartItem);
-
-        cartDao.addProductToCart(cart);
-        return "Product added to cart successfully!";
     }
 
     public List<Product> getProductsInCart(int userId) {
-        return cartDao.getProductsByUserId(userId);
-    }
+        try {
+            LOGGER.info("start::CartHandler::getProductsInCart::");
 
+            LOGGER.info("Fetching products in cart");
+            return cartDao.getProductsByUserId(userId);
+        } catch (Exception e) {
+            LOGGER.error("Error fetching products in cart", e);
+            throw new RuntimeException("Error fetching products in cart", e);
+        }
+    }
 }
+

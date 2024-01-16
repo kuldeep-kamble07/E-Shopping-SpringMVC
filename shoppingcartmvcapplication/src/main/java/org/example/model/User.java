@@ -3,6 +3,8 @@ package org.example.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -13,17 +15,13 @@ public class User {
     private int userId;
 
     private String firstname;
-
     private String lastname;
-
-
-    private  String email;
-    private  String mobileNo;
-
+    private String email;
+    private String mobileNo;
     private String password;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Cart cart;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<UserCartMapping> cartMappings = new ArrayList<>();
 
 
-   }
+}

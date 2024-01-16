@@ -24,5 +24,5 @@ public class DbQueries {
 
     public static final String GET_BY_MAIL = "FROM User WHERE email = :email";
 
-    public static final String GET_PRODUCTS_BY_USER_ID = "SELECT p FROM Product p JOIN p.Cart.UserCartMappings ucm WHERE ucm.Cart.User.userId = :userId";
+    public static final String GET_PRODUCTS_BY_USER_ID = "FROM UserCartMapping WHERE user.userId = :userId";
 }

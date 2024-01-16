@@ -100,7 +100,6 @@
 <h1>Welcome to Online Shopping Cart</h1>
 
 <a id="a1", href="addproduct" class="btn">Add Product</a>
-<a id="a2", href="dashboard" class="btn">show dashboard</a>
 <br>
 <br>
 <br>

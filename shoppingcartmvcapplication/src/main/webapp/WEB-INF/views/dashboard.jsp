@@ -51,6 +51,8 @@
     <button id="btnClothing" data-category="CLOTHING" onclick="fetchProductsByCategory('CLOTHING')">Clothing</button>
     <button id="btnSports" data-category="SPORTS" onclick="fetchProductsByCategory('SPORTS')">Sports</button>
     <button id="btnProfile" type="button" onclick="displayUserDteail()">Profile</button>
+
+
 </div>
 <table>
     <thead id="a1">
