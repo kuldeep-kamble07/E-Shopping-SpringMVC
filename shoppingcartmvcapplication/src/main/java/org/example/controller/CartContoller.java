@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CartContoller {
@@ -63,5 +64,42 @@ public class CartContoller {
     public ResponseEntity<List<Product>> fetchProductsInCart(@RequestHeader("userId") int userId) {
         List<Product> products = cartHandler.getProductsInCart(userId);
         return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+//    @PostMapping(value = "/updatequantity")
+//    public ResponseEntity<String> updateProductQuantityInCart(
+//            @RequestHeader(value = "userId") int userId,
+//            @RequestHeader(value = "productId") int productId,
+//            @RequestHeader(value = "quantity") int quantity) {
+//
+//        try {
+//            String response = cartHandler.updateProductQuantity(userId, productId, quantity);
+//            return ResponseEntity.ok(response);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("Error updating product quantity: " + e.getMessage());
+//        }
+//    }
+
+    @PostMapping("/updateordelete")
+    public ResponseEntity<String> updateCart(@RequestHeader("userId") int userId,  @RequestBody Map<String, Object> mapdata) {
+        try {
+            if (mapdata.containsKey("updatedData")) {
+                Map<String, Integer> updatedQuantitiesMap = (Map<String, Integer>) mapdata.get("updatedData");
+
+                if (!updatedQuantitiesMap.isEmpty()) {
+                    cartHandler.updateProductQuantities(userId, updatedQuantitiesMap);
+                }
+            }
+            if (mapdata.containsKey("deletedData")) {
+                List<Integer> deletedProductIds = (List<Integer>) mapdata.get("deletedData");
+                if (!deletedProductIds.isEmpty()) {
+                    cartHandler.deleteProductsFromCart(userId, deletedProductIds);
+                }
+            }
+            return ResponseEntity.ok("Update product successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating/deleting products from cart: " + e.getMessage());
+        }
     }
 }

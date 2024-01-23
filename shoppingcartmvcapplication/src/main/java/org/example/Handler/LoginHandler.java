@@ -45,16 +45,3 @@ public class LoginHandler implements UserHandlerI {
     }
     }
 
-//
-//public UserDto login(LoginDTO loginDTO) {
-//    UserDto userDto = null;
-//    try {
-//        User user = userDao.getByEmail(loginDTO.getEmail());
-//        if (user != null && user.getPassword().equals(loginDTO.getPassword())) {
-//            BeanUtils.copyProperties(user, userDto);
-//        }
-//    } catch (Exception e) {
-//        e.printStackTrace();
-//    }
-//    return userDto;
-//}

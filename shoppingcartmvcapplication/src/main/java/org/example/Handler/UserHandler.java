@@ -1,5 +1,6 @@
 package org.example.Handler;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.example.DTO.LoginDTO;
@@ -9,6 +10,8 @@ import org.example.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.xml.bind.ValidationException;
+
 @Component
 public class UserHandler {
 
@@ -17,6 +20,12 @@ public class UserHandler {
     @Autowired
     private UserDao userDao;
 
+
+    public void validateUser(User user) throws ValidationException {
+        if (StringUtils.isBlank(user.getFirstname()) || StringUtils.isBlank(user.getLastname()) || StringUtils.isBlank(user.getEmail()) || StringUtils.isBlank(user.getMobileNo()) || StringUtils.isBlank(user.getPassword())) {
+            throw new ValidationException("Invalid input. Please provide values for all user properties.");
+        }
+    }
     public String addUser(User user) {
         try {
             LOGGER.info("start::UserHandler::addUser::");

@@ -14,16 +14,16 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRV0gem6ITPr5KQGwMbZySmA9WBiF4C1nh3uA&usqp=CAU'); /* Path to your image file */
-            background-size: 50%,50%; /* Makes sure the image covers the entire background */
-            background-repeat: no-repeat; /* Prevents the image from repeating */
-            background-position: center center; /* Centers the image */
+            background-image: url('https://img.freepik.com/premium-photo/online-shopping-design-shopping-trolleys-with-smartphone-advertising-poster-banner-3d-illustration_34478-1214.jpg?w=1380');
+            background-size: 100%,100%;
+            background-repeat: no-repeat;
+            background-position: center center;
             margin: 0;
             padding: 0;
         }
 
         h1 {
-            margin-top: 100px;
+            margin-top: 50px;
             color: #333;
         }
 
@@ -99,7 +99,7 @@
 
 <h1>Welcome to Online Shopping Cart</h1>
 
-<a id="a1", href="addproduct" class="btn">Add Product</a>
+<%--<a id="a1", href="addproduct" class="btn">Add Product</a>--%>
 <br>
 <br>
 <br>

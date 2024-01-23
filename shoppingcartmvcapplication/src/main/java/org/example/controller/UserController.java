@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import javax.xml.bind.ValidationException;
+
 @Controller
 public class UserController {
 
@@ -28,21 +30,12 @@ public class UserController {
     }
 
     @PostMapping(value = "/adduser",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> addUser(@RequestBody User user) {
+    public ResponseEntity<String> addUser(@RequestBody User user) throws ValidationException {
         System.out.println("In Method + ");
+        userHandler.validateUser(user);
         return ResponseEntity.ok(userHandler.addUser(user));
     }
 
 
-
-//    @PostMapping(value = "/addcart", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<String> addUser(@RequestHeader(value = "id") int id) {
-//        try {
-//            return ResponseEntity.ok(userHandler.addCartToUser(id));
-//        } catch (Exception e) {
-//            // Handle the exception and return an appropriate response
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding cart to user: " + e.getMessage());
-//        }
-//    }
 
 }

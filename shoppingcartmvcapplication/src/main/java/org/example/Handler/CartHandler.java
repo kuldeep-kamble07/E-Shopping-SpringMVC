@@ -8,10 +8,14 @@ import org.example.Dao.UserDao;
 import org.example.model.UserCartMapping;
 import org.example.model.Product;
 import org.example.model.User;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CartHandler {
@@ -99,6 +103,24 @@ public class CartHandler {
         } catch (Exception e) {
             LOGGER.error("Error fetching products in cart", e);
             throw new RuntimeException("Error fetching products in cart", e);
+        }
+    }
+
+    public void deleteProductsFromCart(int userId, List<Integer> productIds) {
+        try {
+            cartDao.deleteProductsFromCart(userId, productIds);
+        } catch (Exception e) {
+            LOGGER.error("Error deleting products from cart", e);
+            throw new RuntimeException("Error deleting products from cart", e);
+        }
+    }
+
+    public void updateProductQuantities(int userId, Map<String, Integer> updatedQuantitiesMap) {
+        try {
+            cartDao.updateProductQuantity(userId, updatedQuantitiesMap);
+        } catch (Exception e) {
+            LOGGER.error("Error updating product quantities", e);
+            throw new RuntimeException("Error updating product quantities", e);
         }
     }
 }

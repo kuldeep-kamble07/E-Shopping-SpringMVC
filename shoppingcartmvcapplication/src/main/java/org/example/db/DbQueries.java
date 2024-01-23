@@ -25,4 +25,8 @@ public class DbQueries {
     public static final String GET_BY_MAIL = "FROM User WHERE email = :email";
 
     public static final String GET_PRODUCTS_BY_USER_ID = "FROM UserCartMapping WHERE user.userId = :userId";
+
+    public static final String DELETE_PRODUCT_FROM_CART = "DELETE FROM UserCartMapping WHERE user.userId = :userId AND product.id IN (:productIds)";
+
+    public static final String UPDATE_PRODUCT_QUANTITY="UPDATE UserCartMapping SET quantity = :quantity WHERE user.userId = :userId AND product.id = :productId";
 }

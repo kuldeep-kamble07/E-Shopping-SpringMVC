@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Login</title>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -25,6 +27,7 @@
 
         .form-group {
             margin-bottom: 15px;
+            position: relative;
         }
 
         label {
@@ -34,10 +37,19 @@
 
         input[type="email"],
         input[type="password"] {
-            width: 100%;
+            width: calc(100% - 30px);
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            padding-right: 30px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
         }
 
         button {
@@ -60,12 +72,13 @@
         <div class="form-group">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" placeholder="Your email address" required>
-
         </div>
         <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Your password" required>
-
+            <div style="position: relative;">
+                <input type="password" id="password" name="password" placeholder="Your password" required>
+                <i class="far fa-eye password-toggle" id="togglePassword"></i>
+            </div>
         </div>
         <div class="form-group">
             <button type="button" onclick="loginUser()">Submit</button>

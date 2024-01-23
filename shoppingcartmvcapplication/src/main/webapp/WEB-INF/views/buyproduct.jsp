@@ -27,7 +27,9 @@
 
 <h1>Dashboard</h1>
 
-<button id="btnDisplaymycart" type="button" onclick="displayCart()">My Cart</button>
+<a id="a4", href="showCart" onclick="displayCart() ">My Cart</a>
+
+<%--<button id="btnDisplaymycart" type="button" onclick="displayCart()">My Cart</button>--%>
 
 <div>
     <h2 id="categoryHeading">Buy Product</h2>

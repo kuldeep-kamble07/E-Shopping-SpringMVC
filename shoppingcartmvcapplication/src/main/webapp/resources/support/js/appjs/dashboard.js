@@ -120,7 +120,7 @@ function addproduct(productId) {
     var userId = sessionStorage.getItem("userId");
     if (quantity != null) {
         var productData = {
-             userId:userId,
+            userId:userId,
             productId: productId,
             quantity: quantity
         };
